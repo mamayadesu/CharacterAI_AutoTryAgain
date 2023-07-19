@@ -36,7 +36,6 @@
         window.__cai_auto_button = window.__cai_find_by_inner_text("span", "Remember: Everything Characters say is made up!");
         
         if (window.__cai_auto_button == null) {
-            console.log('Text not found yet');
             return;
         }
         clearInterval(window.__cai_wait_for_button);
