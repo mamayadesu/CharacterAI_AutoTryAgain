@@ -45,7 +45,7 @@
             if (window.__cai_auto_enabled) {
                 window.__cai_auto_button.innerHTML = "<b style='color: green;'>AUTO 'TRY AGAIN' IS ENABLED. CLICK HERE TO DISABLE IT</b>";
             } else {
-                window.__cai_auto_button.innerHTML = "AUTO 'TRY AGAIN' IS DISABLED. CLICK HERE TO DISABLE IT";
+                window.__cai_auto_button.innerHTML = "AUTO 'TRY AGAIN' IS DISABLED. CLICK HERE TO ENABLE IT";
             }
         };
         
