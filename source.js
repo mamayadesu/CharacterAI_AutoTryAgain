@@ -1,7 +1,8 @@
 (function() {
     window.__cai_try_again_interval = null;
     window.__cai_auto_button = null;
-    window.__cai_auto_enabled = true;
+    window.__cai_auto_enabled = false;
+    window.__cai_auto_next_message = false;
     window.__cai_find_by_inner_text = function(tagname, searchText) {
         var aTags = document.getElementsByTagName(tagname);
         var found = null;
@@ -31,24 +32,34 @@
         }, 3000);
     };
     window.__cai_try_again_run();
+
+    window.__cai_update_settings_label = function() {
+        window.__cai_auto_button.innerHTML = "<b style='color: green;'>Auto try again: " + (window.__cai_auto_enabled ? "ENABLED" : "<b style='color: red;'>DISABLED</b>") + ", Auto next message: "+ (window.__cai_auto_next_message ? "ENABLED" : "<b style='color: red;'>DISABLED</b>") + "<br>CLICK HERE FOR SETUP</b>";
+    };
     
     window.__cai_wait_for_button = setInterval(function() {
-        window.__cai_auto_button = window.__cai_find_by_inner_text("span", "Remember: Everything Characters say is made up!");
+
+        if (window.__cai_auto_next_message) {
+            document.getElementsByClassName("swiper-button-next")[0].click();
+        }
+
+        var findButton = window.__cai_find_by_inner_text("span", "Remember: Everything Characters say is made up!");
         
-        if (window.__cai_auto_button == null) {
+        if (findButton == null) {
             return;
         }
-        clearInterval(window.__cai_wait_for_button);
+        window.__cai_auto_button = findButton;
+        window.__cai_auto_enabled = false;
+        //clearInterval(window.__cai_wait_for_button);
         
         window.__cai_auto_button.onclick = function(e) {
-            window.__cai_auto_enabled = !window.__cai_auto_enabled;
-            if (window.__cai_auto_enabled) {
-                window.__cai_auto_button.innerHTML = "<b style='color: green;'>AUTO 'TRY AGAIN' IS ENABLED. CLICK HERE TO DISABLE IT</b>";
-            } else {
-                window.__cai_auto_button.innerHTML = "AUTO 'TRY AGAIN' IS DISABLED. CLICK HERE TO ENABLE IT";
-            }
+            window.__cai_auto_enabled = confirm("Do you want to enable Auto 'Try Again' clicker?");
+
+            window.__cai_auto_next_message = confirm("Do you want to enable Auto Next message?");
+
+            window.__cai_update_settings_label();
         };
-        
-        window.__cai_auto_button.click();
-    }, 1);
+
+        window.__cai_update_settings_label();
+    }, 1000);
 })();
